@@ -10,7 +10,7 @@ clean:
 	$(RM) imd2raw *.o
 
 .PHONY: test
-test: %test:
+test: %test: %imd2raw
 	$(RM) test/test.img
 	./imd2raw test/BLANK.IMD test/test.img
 	$(CMP) test/BLANK.IMG test/test.img

@@ -42,31 +42,13 @@ char *modetbl[] = { "500K FM", "300K FM", "250K FM", "500K MFM", "300K MFM", "25
 
 FILE *fpin, *fpout;
 
-void swap(unsigned char* xp, unsigned char* yp)
+int comp (const void * elem1, const void * elem2) 
 {
-    int temp = *xp;
-    *xp = *yp;
-    *yp = temp;
-}
-
-// Function to perform Selection Sort
-void selectionSort(unsigned char arr[], int n)
-{
-    int i, j, min_idx;
-
-    // One by one move boundary of unsorted subarray
-    for (i = 0; i < n - 1; i++) {
-
-        // Find the minimum element in unsorted array
-        min_idx = i;
-        for (j = i + 1; j < n; j++)
-        if (arr[j] < arr[min_idx])
-            min_idx = j;
-
-        // Swap the found minimum element
-        // with the first element
-        swap(&arr[min_idx], &arr[i]);
-    }
+    unsigned char f = *((int*)elem1);
+    unsigned char s = *((int*)elem2);
+    if (f > s) return  1;
+    if (f < s) return -1;
+    return 0;
 }
 
 static void leave (int reason)
@@ -169,7 +151,8 @@ int main(int argc, char *argv[])
             sectormap[i] = fgetc(fpin);
             sectormapsorted[i] = sectormap[i];
         }
-        selectionSort(sectormapsorted, seccnt);
+        // Sort the sectors in case of skew
+        qsort(sectormapsorted, seccnt, 1, comp);
         // fprintf(stderr,"Tbl ");
         // for (i=0; i < seccnt; i++) fprintf(stderr,"%d ",sectormap[i]);
         // fprintf(stderr, "\n");
