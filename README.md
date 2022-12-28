@@ -4,7 +4,7 @@ toolset that can take basically any disk created with Intel-alike disk controlle
 the right hardware, create a digital image of that disk.
 Along with the in-band data, there are several pieces of metadata that are stored inside the resulting
 file (typically suffixed with .IMD) that keep track of many geometric details of the original disk such 
-that it could even be reconsisited again on the appropriate hardware.
+that it could even be reconstituted again on the appropriate hardware.
 
 When using a disk image in emulation or with other disk manipulation tools, they typically expect a "raw"
 disk image that is a linear reprsentation of exactly and only the in-band sector-by-sector data.
@@ -12,7 +12,7 @@ Dave Dunfield includes the tool `IMDU.COM` for the purpose - it untangles an Ima
 and outputs a linear disk image with no metadata whatsoever (typically suffixed with .IMG or .DSK or
 whatever... there is no standard).
 
-IMDU.COM itself requires a pretty early form of PC/MS-DOS in order to run, so it can be inconvenient to 
+`IMDU.COM` itself requires a pretty early form of PC/MS-DOS in order to run, so it can be inconvenient to 
 run if all you have is an .IMD file you want unpacked.  The subject of this repo is the utility "imd2raw" that 
 does much the same thing as an `"IMDU /b IN.IMD OUT.IMG"` command line might do in DOS, but you get to 
 compile it for your own operating system.
