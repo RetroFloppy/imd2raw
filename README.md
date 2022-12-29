@@ -32,7 +32,8 @@ To use:
 `./imd2raw in.imd out.img`
 
 # Background
-This code descended from an entry in bitsavers.org under the Convergent/ngen directory; other people 
+This code descended from an entry in bitsavers.org under the [Convergent/ngen](http://bitsavers.org/bits/Convergent/ngen/imd2raw/)
+directory; other people 
 such as Tom Burnett added file input and output so it didn't rely on standard input/output to function.
 All of the versions of `imd2raw.c` that have been out in the world (so far) have suffered from a fatal
 flaw, though:
