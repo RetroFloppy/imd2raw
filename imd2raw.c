@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     unsigned char sectormapsorted[32];
     unsigned char secdisp[32];
     unsigned char secdata[64][8192];
-    unsigned int mode, cyl, hd, seccnt;
+    unsigned int mode, cyl, hd, seccnt, headflags;
     unsigned int secsiz = 0;
     int i, j;
     unsigned char c, value, fill;
@@ -100,17 +100,19 @@ int main(int argc, char *argv[])
         if(feof(fpin)) break;
         mode   = c;
         if(mode > 6) {
-            fprintf(stderr,"Stream out of sync at mode, got 0x%x\n", mode);
+            fprintf(stderr,"Stream out of sync at mode, got 0x%02x\n", mode);
             leave(EXIT_FAILURE);
         }
         cyl    = fgetc(fpin);
         if(cyl > 80) {
-            fprintf(stderr,"Stream out of sync at cyl, got 0x%x\n", cyl);
+            fprintf(stderr,"Stream out of sync at cyl, got 0x%02x\n", cyl);
             leave(5);
         }
-        hd     = fgetc(fpin);
+        c      = fgetc(fpin);
+        hd = c & 0x0f;
+        headflags = c & 0xf0;
         if(hd > 1) {
-            fprintf(stderr,"Stream out of sync at hd, got %d\n", hd);
+            fprintf(stderr,"Stream out of sync at hd, got 0x%02x\n", hd);
             leave(6);
         }
         seccnt = fgetc(fpin);
@@ -160,8 +162,20 @@ int main(int argc, char *argv[])
         // for (i=0; i < seccnt; i++) fprintf(stderr,"%d ",sectormapsorted[i]);
         // fprintf(stderr, "\n");
 
-        // copy sector information indexed by the sector number
+        if ((headflags & 64) == 64)
+        {
+          // Pull out "optional" cylinder map, discard
+          for (int i = 0; i < seccnt; i++)
+            c = fgetc(fpin);
+        }
+        if ((headflags & 128) == 128)
+        {
+          // Pull out "optional" head map, discard
+          for (int i = 0; i < seccnt; i++)
+            c = fgetc(fpin);
+        }
 
+        // copy sector information indexed by the sector number
         for (i=0; i < seccnt; i++) {
             c = fgetc(fpin);
 

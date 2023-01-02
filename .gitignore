@@ -2,5 +2,6 @@
 .settings/
 .classpath
 imd2raw
+imd2raw.exe
 imd2raw.o
 **/.DS_Store
