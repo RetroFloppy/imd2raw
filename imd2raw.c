@@ -29,12 +29,12 @@
  * for each track
  *  char mode (0-5)
  *  char cylinder
- *  char head
+ *  char head (including additional optional bits, below)
  *  char sector count
  *  char sector size (0-6)
  *  sector numbering map
- *  optional cylinder map
- *  optional head map
+ *  optional cylinder map (head & 0x40)
+ *  optional head map (head & 0x80)
  *  sector data records (type) (val, or data)
  */
 
