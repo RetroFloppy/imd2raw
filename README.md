@@ -42,3 +42,9 @@ flaw, though:
 converted correctly.  That is: unless your disk image happens to have a 1-1 sector skew, it will be
 incorrectly decoded by other `imd2raw.c` programs.  This is becuse the sectors aren't sorted before 
 writing them back out.**
+
+Another "bug" in the original corrected here is that it would error out if there was any bad data in the
+stream - that is, if any bad sectors or sectors with missing headers were recorded, it would fail to
+create a binary image.
+The resulting image might be of questionable value, but it remains true that this behavior was a deviation
+from the expected `IMDU.COM` output.
