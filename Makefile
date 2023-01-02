@@ -7,7 +7,7 @@ imd2raw: imd2raw.c
 .PHONY: clean
 
 clean:
-	$(RM) imd2raw *.o
+	$(RM) imd2raw imd2raw.exe *.o
 
 .PHONY: test
 test: %test: %imd2raw

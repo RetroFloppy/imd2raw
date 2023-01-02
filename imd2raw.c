@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     unsigned int mode, cyl, hd, seccnt;
     unsigned int secsiz = 0;
     int i, j;
-    unsigned char c, value;
+    unsigned char c, value, fill;
 
     if (argc != 3) {
         fprintf(stderr, "Usage: imd2raw <infile.imd> <outfile.dsk>\n");
@@ -166,12 +166,16 @@ int main(int argc, char *argv[])
             c = fgetc(fpin);
 
             switch(c) {
-                case 0:            // sector data unavailable - could not be read
-                case 5:
-                case 7:
+                case 0:            // Sector data unavailable - could not be read
+                case 5:            // Deleted address marks
+                case 7:            // Bad sector
                     secdisp[i] = 'X';
-                    for(j=0; j < secsiz; j++)
-                        secdata[sectormap[i]][j] = 0xE5;
+                    fill = 0xE5;
+                    for(j=0; j < secsiz; j++) {
+                        if (c > 0)
+                          fill = fgetc(fpin); // Grab whatever IMD wrote
+                        secdata[sectormap[i]][j] = fill;
+                    }
                     // fprintf(stderr,"Cyl %d Hd %d Sec %d bad, type %d\n",cyl,hd,sectormap[i],c);
                     break;
     

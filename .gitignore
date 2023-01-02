@@ -1,2 +1,6 @@
+.project
+.settings/
+.classpath
 imd2raw
 imd2raw.o
+**/.DS_Store
